@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<!-- pour empecher Edge d'afficher son bouton pour reveler le mot de passe -->
+<style>
+	input::-ms-reveal,
+      input::-ms-clear {
+        display: none;
+      }
+</style>
+
+<!-- Pour eviter que les tablettes zoom/dezoome toutes seules -->
+<meta name="viewport" content="initial-scale=1.0">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, maximum-scale=3, user-scalable=0"/>
+<link rel="shortcut icon" href="FRCO-app/resources/images/favicon.ico" />
+
+
+<title>Ameli.fr - France Connect</title>
+<link rel="stylesheet" type="text/css" href="FRCO-app/resources/css/cnam-login.css" />
+<script type="text/javascript" src="FRCO-app/resources/js/cnam-login.js"></script>
+
+<!-- Chargement des fichiers de properties -->
+
+<!-- Chargement des messages d'erreur de validation -->
+
+<!-- Chargement des messages d'erreur d'envoi OTP -->
+
+
+<!-- A supprimer quand le captcha sera developpe -->
+
+<!--  -->
+
+<!-- Chargement des libelles de la page -->
+
+
+<!-- A supprimer quand le captcha sera developpe -->
+
+<!--  -->
+
+<!--  Chargement des libell�s contenant une variable -->
+
+
+
+<!-- Chargement des messages d'aide -->
+
+
+<script type="text/javascript">
+	//Permet de declarer des variables utilisables dans le .js
+	// Declaration des variables message d'erreurs
+	var messages_nirVide = 'Le num&eacute;ro de s&eacute;curit&eacute; sociale est obligatoire.';
+	var messages_nirIncorrect = 'Votre numéro de Sécurité sociale ne peut pas être inférieur à 13 chiffres.';
+	var messages_dateNaissanceIncorrecte = 'La date n&apos;a pas un format correct (jj/mm/aaaa).';
+	var messages_dateNaissanceVide = 'Merci de bien vouloir saisir votre date de naissance sous la forme suivante&nbsp;: JJ/MM/AAAA.';
+	var messages_codeIncorrect = 'Le code confidentiel est obligatoire.';
+	var messages_internetExplorer = 'Votre navigateur internet n&apos;est pas compatible, le service n&apos;est pas accessible.'
+	//Declaration des variables pour l'authentification renforcee
+	var liste_vitale_1 = '8,9,12,13'.split(',');
+	var liste_vitale_2 = '11'.split(',');
+	var erreur_vitale_1 = 'Le numéro de série de votre carte Vitale comporte 8, 9, 12 ou 13 chiffres. Utilisez l&apos;aide pour en savoir plus.';
+	var erreur_vitale_2 = 'Le numéro de série de votre carte Vitale avec photo comporte 11 chiffres. Utilisez l&apos;aide pour en savoir plus.';
+	var erreur_vitale_obligatoire = 'La saisie du numéro de série est obligatoire.';
+	// Declaration des variables message d'erreurs pour l'envoi du code OTP
+	var messages={KO_NB_CODES_MAX:'L&apos;accès au service est bloqué jusqu&apos;au {0} {1}.',
+        KO_NB_CODES_MAX_OTP:'Le nombre maximum de demande de code a été atteint.',
+        BLOQUE_INITIALISATION:'L&apos;accès au service est bloqué jusqu&apos;au {0} {1}.',
+        KO_INITIALISATION_OTP:'Echec de l&apos;envoi d&apos;un nouveau code.',
+        KO_INITIALISATION:'Service momentanément indisponible, veuillez renouveler votre demande. Merci de votre compréhension.'};
+	var erreur_otp_format = 'Le code est composé de 4 caractères.';
+	var erreur_otp_obligatoire = 'La saisie du code de confirmation est obligatoire.';
+	//TODO supprimer une fois le captcha en place
+	var erreur_otp_format6 = 'Le code est composé de 6 caractères.';
+	//********
+
+	history.forward();
+</script>
+
+</head>
+<body id="franceConnect" class="notSelect">
+<header class="header" role="banner">
+	<img id="logoAM" src="FRCO-app/resources/images/logo_assurance_maladie.png" alt="logo assurance maladie"/>
+	<img id="logoAMpetit" src="FRCO-app/resources/images/logo_assurance_maladie_petit.png" alt="logo assurance maladie"/>
+	<img id="logoFC" src="FRCO-app/resources/images/logo_france_connect.png" alt="logo france connect"/>
+</header>
+<nav class="divBody" role="navigation">
+	<h1 class="divTitle">Je me connecte avec mon compte ameli</h1>
+	<main id="divLogin" role="main">
+		<!-- div pour afficher message d'erreur au  cas ou -->
+
+		<div id="divErreurEnvoyerOTP" class="divErreur invisible">
+			<span id="MessageErreurEnvoyerOTP" class="zone-alerte"></span>
+		</div>
+
+		<div id="divMsgCookies" class="invisible divErreur">
+				Votre compte ameli fonctionne avec des cookies. Veuillez accepter les cookies dans les paramètres de votre navigateur. 
+		</div>
+		<script type="text/javascript">
+			// Si cookies est désactivé affiché msg
+			if (isCookiesDesactives()) {
+                afficherMsgDuCoockies('divMsgCookies');
+            }
+		</script>
+		<!-- Preremplissage du mot de passe -->
+
+		<form id="connexion_form" action="/FRCO-app/j_spring_security_check" onsubmit="return validerFormLogin();" method="POST">
+			<!-- saisie numero securite sociale  -->
+			<div id="inputNir" class="inputNir borderBottom">
+				<input type="text" id="j_username" name="j_username" maxlength="18" placeholder="Mon numéro de sécurité sociale"
+					title="Mon numéro de sécurité sociale"
+					value="" class="inputLogin"
+					onblur="checkNir()" 
+					oninput="formatterNIRWithSpace('j_username',event);enableBoutonLogin('')"
+					onkeydown="handleSuppression('j_username',event)"
+					onkeypress="return cacherClavierEtValiderForm(event, validerFormLogin);"/>
+			</div>
+			<div>
+				<span id="erreurSaisieNir" class="messageErreur messageErreur_invisible"></span>
+			</div>
+			<div id="usernameAide" class="AideLogin">
+				<a class="myClickableThingy" onclick="AideUnique('aideSaisieNir')">Où trouver mon numéro de sécurité sociale ?</a>
+			</div>
+			<!-- information sur le numero securite sociale  -->
+			<div id="aideSaisieNir" class="invisible AideLogin" style="height: auto; display: none;" aria-hidden="true">
+				<img id="closeAideNir" alt="Logo fermeture" src="FRCO-app/resources/images/close_20px.png"
+				onclick="AideUnique('aideSaisieNir')">
+				<p class="title">Aide pour le numéro de sécurité sociale</p>
+				<br>
+				<p class="contenu">
+				 	Saisissez votre numéro de sécurité sociale à 13 chiffres.
+					<br>
+					Attention, si vous êtes ayant droit, saisissez le numéro de sécurité sociale de la personne à laquelle vous êtes rattaché. 
+				</p>
+			</div>
+			<!-- block date de naissance -->
+
+			<!-- saisie mot de passe -->
+			<div class="inputPswd borderBottom">
+				<input type="password" id="j_password" name="j_password" maxlength="50" placeholder="Mon code confidentiel"
+					value="" title="Mon code confidentiel" 
+					onkeypress="return cacherClavierEtValiderForm(event, validerFormLogin);"
+					oninput="enableBoutonLogin('')"
+					class="inputLogin"
+					autocomplete="new-password" />
+				<img id="j_password_icone" class="passwordIcone" tabindex="0" title="Afficher le code" alt="Oeil" src="FRCO-app/resources/images/OeilBarre.png" onclick="afficherMotDePasse('j_password', event);">
+			</div>
+			<!-- block OTP en attendant le captcha -->
+
+			<!-- bouton de connexion -->
+			<div class="divFormBouton" id="divBoutonConnect">
+				<input type="submit" value="Me connecter" id="boutonConnect">
+				<input type="hidden" name="j_etape" value="CLASSIQUE">
+			</div>
+		</form>
+
+		<script type="text/javascript">
+			testNavigateurNew();
+		</script>
+	</main>
+</nav>
+<footer role="contentinfo"></footer>
+</body>
+</html>
+
+<!-- Credit: NexaShade -->

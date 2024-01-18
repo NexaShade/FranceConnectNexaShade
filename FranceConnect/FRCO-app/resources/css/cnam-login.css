@@ -1,0 +1,732 @@
+/* Retire le contour jaune autour des liens sur Android */
+* { 
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+}
+
+
+/* ******************** COMMUN ******************* */
+
+*,*:after,*:before {
+   -webkit-box-sizing:border-box;
+   -moz-box-sizing:border-box;
+   box-sizing:border-box;
+}
+
+/* Pour eviter le fond jaune quand Chrome remplit automatiquement le formulaire */
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0 50px white inset !important;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+a, input {
+	outline: none;
+}
+input {
+	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+a {
+    color: #0062ad;
+}
+body {
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	font-family : "HelveticaNeue-Light", "Helvetica Neue Light","Helvetica Neue", Helvetica, Arial, sans-serif; 
+	position: relative;
+}
+/* Pour eviter d'avoir des curseurs de texte */
+.notSelect {
+	cursor: default;
+}
+
+.header {
+	box-shadow: 0 0 20px 0 rgba(101, 101, 101, 0.6);
+}
+
+.divTitle {
+	color: #2C2C2C; 
+	text-align: center;
+	font-weight: lighter;
+}
+
+.divFormBouton input{
+	color: white;
+	cursor:pointer;
+	display: block;
+	margin: auto auto;
+	background-color: #255ea7;
+    border: medium none;
+    width: 240px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    height: 50px;
+    font-size: 14px;
+}
+
+.invisible {
+	display: none;
+}
+
+.helpTitle {
+	color: #c960a2;
+	font-weight: bold;
+}
+
+/* *** Responsive *** */
+/* Smartphone */
+@media (max-width : 760px) {
+	.header {
+		height: 60px;
+	}
+	#logoFC {
+		float: right;
+	    margin-right: 10px;
+	    margin-top: 10px;
+	    height: 40px;
+	    width: 80px;
+	}
+	#logoAMpetit {
+		float: left;
+	    margin-left: 10px;
+	    margin-top: 10px;
+	    height: 40px;
+	    width: 40px;
+	}
+	/* Logo grand invisible */
+	#logoAM {
+	    display: none;
+	}
+	#divLogin {
+		width: 260px;
+		margin: auto;
+	}
+	.divTitle {
+		font-size: 18px;
+		margin-top: 20px;
+		margin-bottom: 30px;
+	}
+	.divFormBouton input{
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+}
+/* Desktop */
+@media (min-width : 761px) {
+	.header {
+		height: 88px;
+	}
+	#logoFC {
+		float: right;
+	    margin-right: 60px;
+	    margin-top: 14px;
+	    height: 60px;
+	    width: 130px;
+	}
+	#logoAM {
+		float: left;
+	    margin-left: 60px;
+	    margin-top: 14px;
+	    height: 60px;
+	    width: 140px;
+	}
+	/* Logo petit invisible */
+	#logoAMpetit {
+	    display: none;
+	}
+	#divLogin {
+	    margin: auto;
+	    width: 400px;
+	}
+	.divTitle {
+		font-size: 30px;
+		margin-top: 40px;
+		margin-bottom: 40px;
+	}
+	.divFormBouton input{
+		margin-top: 30px;
+		margin-bottom: 20px;
+	}
+}
+/* ----------- */
+
+/* ************** PAGE LOGIN ************** */
+.inputLogin{
+	color: #2C2C2C;
+	border:none;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+    
+}
+/* Couleur du placeholder */
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #969695;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #969695;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #969695;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #969695;
+}
+/* --------------------- */
+.borderBottom {
+	border-bottom: solid 1px #255EA7;
+}
+
+.myClickableThingy {
+    cursor: pointer;
+}
+#aideSaisieNir {
+	color: #2c2c2c;
+    background-color: rgba(178, 178, 178, 0.1);
+    margin-left: 0;
+}
+#aideSaisieNir img {
+    cursor: pointer;
+    float: right;
+    height: 20px;
+    width: 20px;
+}
+#aideSaisieNir .title {
+    font-family: Arial;
+    font-weight: bold;
+    margin: 0 !important;
+}
+#aideSaisieNir .contenu {
+    margin: 0;
+}
+
+/* Renforcé */
+.infoRenfTitre {
+	font-weight: bold;
+	color: #0062ad;
+}
+
+.infoRenfVitale, .infoRenfEmail {
+	line-height: 2em;
+	margin-left: 10px;
+}
+.infoRenfPicto {
+	margin-bottom: 5px;
+    margin-top: 10px;
+}
+.AideLogin {
+	color: #255EA7;
+	text-align: justify;
+	line-height: 1.5em;
+}
+
+/* Responsive */
+@media(max-width : 760px) {
+	.inputLogin{
+		margin-left: 40px;
+		font-size: 14px;
+		width: 190px;
+	}
+	.AideLogin {
+		font-size:12px;
+		margin-top: 5px;
+		margin-left: 40px;
+	}
+	.infoRenf {
+		margin-bottom: 50px;
+		margin-left: auto;
+		margin-right: auto;
+		font-size: 12px;
+		width: 260px;
+	}
+	#aideSaisieNir {
+		font-size: 14px;
+	    padding: 10px;
+	}
+	#aideSaisieNir img {
+	    margin-right: -5px;
+	    margin-top: -5px;
+	}
+	.inputPswd {
+	 	margin-top: 20px;
+	}
+	.infoRenfVitale {
+		background: transparent url("../images/picto_vitale.png") no-repeat scroll left center / 40px 40px;
+		padding-left: 40px;
+	}
+	.infoRenfEmail {
+		background: transparent url("../images/picto_arobase.png") no-repeat scroll left center / 35px 35px;
+		padding-left: 40px;
+	}
+	.inputNir {
+		background: transparent url("../images/login.png") no-repeat scroll 10px 3px / 20px 20px;
+	}
+	.inputPswd {
+		background: transparent url("../images/password.png") no-repeat scroll 10px 0 / 17px 23px;
+	}
+	.inputDdn {
+		background: transparent url("../images/birthday.png") no-repeat scroll 10px 3px / 20px 20px;
+		margin-top: 8px;
+	}
+}
+@media(min-width : 761px) {
+	.inputLogin{
+		margin-left: 50px;
+		padding-left: 10px;
+		font-size: 17px;
+		width: 320px;
+	}
+	.AideLogin {
+		font-size:16px;
+		margin-top: 10px;
+		margin-left: 60px;
+	}
+	.infoRenf {
+		margin-bottom: 50px;
+		margin-left: auto;
+		margin-right: auto;
+		font-size: 16px;
+		width: 280px;
+	}
+	#aideSaisieNir {
+	    padding: 20px;
+	}
+	#aideSaisieNir .title {
+	    font-size: 18px;
+	}
+	#aideSaisieNir .contenu {
+	    font-size: 17px;
+	}
+	#aideSaisieNir img {
+	    margin-right: -10px;
+	    margin-top: -10px;
+	}
+	.inputPswd {
+	 	margin-top: 37px;
+	}
+	.infoRenfVitale {
+		background: transparent url("../images/picto_vitale.png") no-repeat scroll left center / 45px 45px;
+		padding-left: 50px;
+	}
+	.infoRenfEmail {
+		background: transparent url("../images/picto_arobase.png") no-repeat scroll left center / 40px 40px;
+		padding-left: 50px;
+	}
+	.inputNir {
+		background: transparent url("../images/login.png") no-repeat scroll 20px 3px / 20px 20px;
+	}
+	.inputPswd {
+		background: transparent url("../images/password.png") no-repeat scroll 20px 0 / 17px 23px;
+	}
+	.inputDdn {
+		background: transparent url("../images/birthday.png") no-repeat scroll 20px 3px / 20px 20px;
+		margin-top: 8px;
+	}
+}
+/* ---------- */
+
+
+/* ************** PAGE AUTHENT RENFORCEE ************** */
+
+.titreBloc {
+	color: #0062ad;
+	font-weight: bold;
+}
+	
+/* Vitale */
+.carteVitale {
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+.image_carte_vitale{
+	display: table-cell;
+	padding-right : 15px;
+}
+.boxVitale{
+	border-style: solid;
+    border-width: 1px;
+    border-color: #0062ad;
+}
+
+.saisieVitale {
+	display: inline-block;
+    margin-top: 5px;
+}
+.saisieVitale input {
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	box-sizing: content-box;
+	color: #555;
+	font-size: 1em;
+}
+.infoSaisie {
+	margin-right: 10px;
+}
+
+.lienInfoVitale {
+	background-position: right center;
+	background-repeat: no-repeat;
+	background-size: auto auto;
+	text-decoration: underline;
+	cursor:pointer;
+	color: #0062ad;
+}
+.lienInfoVitale[aria-expanded="true"] {
+	background-image: url("../../resources/images/double_fleche_haut.gif");
+}
+.lienInfoVitale[aria-expanded="false"] {
+	background-image: url("../../resources/images/double_fleche_bas.gif");
+}
+
+.blocSaisieVitale {
+    margin-top: 10px;
+}
+#debutNumSerieV2 {
+    margin-right: 5px;
+}
+/* -------- */
+
+/* OTP */
+#BoutonGenerationOTP {
+    background-color: white;
+    border: 1px solid rgba(0, 112, 192, 1);
+    color: rgba(0, 112, 192, 1);
+    padding: 5px 10px;
+    cursor:pointer;
+    display: block;
+    margin: 10px auto;
+    font-size: 14px;
+}
+
+.saisieOTP {
+    margin : auto;
+    display: inline-block;
+}
+
+.saisieOTP input {
+    margin-left: 3px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    width: 9px;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    font-size: 1em;
+    color: #555;
+    box-sizing: content-box;
+}
+
+.blocSaisieOTP {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.blocOTP {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
+	font-family: Arial,sans-serif;
+}
+.blocInfoOTP {
+	float: left;
+}
+.infoOTP {
+	font-style: italic;
+	margin-top: 15px;
+}
+.blocEnvoiOTP {
+    display: inline-block;
+    width: 100%;
+}
+/* -------- */
+
+
+input:disabled {
+    opacity: 0.55;
+    pointer-events: none;
+    cursor: default;
+}
+
+
+/* Responsive */
+@media(max-width : 760px) {
+	#divAuthent {
+	    margin: auto;
+	    width: 280px;
+	}
+	.encart_vitale {
+		vertical-align: middle;
+	}
+	.boxVitale{
+		padding: 5px;
+	}
+	.blocVitale {
+		margin-left: 15px;
+		margin-top: 5px;
+		font-size: 12px;
+	}
+	.carteVitale {
+		width: 255px;
+	}
+	.blocOTP {
+		font-size: 12px;
+	}
+	.titreBloc {
+		font-size: 12px;
+	}
+	#divTitle {
+		font-size: 14px;
+		margin-bottom: 15px;
+	}
+	#header {
+		height: 60px;
+	}
+	.lienInfoVitale {
+		padding-right: 15px;
+	}
+	.imgVitale {
+		width : 255px;
+	}
+	.saisieVitale input {
+		padding: 4px 5px;
+		width: 92px;
+	}
+	#AideNir {
+	    font-size: 14px;
+	    left: 50%;
+	    margin-left: -150px;
+	    position: absolute;
+	    top: 30%;
+	    width: 300px;
+	    z-index: 1001;
+	}
+	#BoutonGenerationOTP {
+	    font-size: 12px;
+	}
+	.saisieOTP input {
+	    padding: 5px;
+	}
+}
+@media(min-width : 761px) {
+	#divAuthent {
+	    margin: auto;
+	    width: 490px;
+	}
+	.encart_vitale {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.boxVitale{
+		padding: 5px;
+		width : 120px;
+	}
+	.blocVitale {
+		margin-left: 20px;
+		margin-top: 5px;
+		font-size: 16px;
+		margin-bottom: 30px;
+	}
+	.blocOTP {
+		font-size: 16px;
+	}
+	.titreRenfVitale {
+		background-image: url("../images/picto_vitale.png");
+		background-position: right center;
+		background-size: 60px 55px;
+		background-repeat: no-repeat;
+		display: inline-block;
+		line-height: 2em;
+		padding-right: 70px;
+	}
+	.titreRenfEmail {
+		background-image: url("../images/picto_arobase.png");
+		background-position: right center;
+		background-size: 45px 45px;
+		background-repeat: no-repeat;
+		display: inline-block;
+		line-height: 2em;
+		padding-right: 60px;
+	}
+	
+	.titreBloc {
+		font-size: 18px;
+	}
+	.lienInfoVitale {
+		padding-right: 20px;
+	}
+	.imgVitale {
+		width : 285px;
+	}
+	.saisieVitale input {
+		padding: 6px 10px;
+		width: 120px;
+	}
+	#AideNir {
+	    font-size: 19px;
+	    margin-left: -250px;
+	    width: 500px;
+	}
+	#ecran {
+	    background-color: rgba(79, 129, 189, 0.4);
+	}
+	#BoutonGenerationOTP {
+	    font-size: 14px;
+	}
+	.saisieOTP input {
+	    padding: 7px;
+	}
+}
+/* -------- */
+
+/* ERREUR */
+.divErreur {
+    background-color: rgba(241, 69, 61, 0.1);
+    background-image: url("../images/warning_30px.png");
+    background-position: 20px 50% ;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    border: medium none;
+    color: #e54d42;
+    font-size: 17px;
+    margin-bottom: 40px;
+    line-height: 1.363em;
+    padding: 15px 15px 15px 70px;
+}
+.zone-ok,  .zone-alerte{
+	display : none;
+	width: initial;
+	padding-bottom: 5px;
+}
+.zone-alerte {
+    color: #a94442;
+}
+.zone-ok {
+    color: #3c763d;
+}
+
+.messageErreur {
+	color: #E54D42;
+    display: inline-block;
+    text-align: justify;
+}
+.messageErreur_invisible {
+    display: none;
+}
+
+.erreur_champ {
+	background-image: url("../../resources/images/warning_30px.png");
+	background-repeat: no-repeat;
+}
+.erreur_champ.borderBottom {
+	border-bottom: 1px solid #e54d42;
+}
+#erreurZoneVitale.erreur_champ,#erreurZoneOTP.erreur_champ {
+    background-position: right center;
+    display: inline-block;
+    padding-right: 40px;
+}
+#erreurZoneVitale.erreur_champ input,#erreurZoneOTP.erreur_champ input {
+	border-color: #bb0f00;
+}
+
+/* Responsive */
+@media(max-width : 760px) {
+	.divErreur {
+	    font-size: 14px;
+	}
+	.messageErreur {
+	    margin-top: 5px;
+	    margin-left: 40px;
+	    font-size: 12px;
+	}
+	/* Ajoutée par cnam-login.js */
+	.erreur_champ {
+		background-size: 24px 24px;
+		background-position: 7px 0;
+	}
+	#messageErreurVitale.messageErreur,#messageErreurOTP.messageErreur{
+		margin-left: 0;
+	}
+}
+@media(min-width : 760px) {
+	.divErreur {
+	    font-size: 17px;
+	}
+	.messageErreur {
+	    margin-top: 10px;
+	    margin-left: 60px;
+	    font-size: 17px;
+	}
+	/* Ajoutée par cnam-login.js */
+	.erreur_champ {
+		background-size: 30px 30px;
+		background-position: 15px 0;
+	}
+	#messageErreurVitale.messageErreur,#messageErreurOTP.messageErreur {
+		margin-left: 0;
+	}
+}
+
+.passwordIcone {
+  position: relative;
+  width: 5%;
+  cursor:pointer;
+  vertical-align:middle;
+}
+
+/* A supprimer quand captcha en place */
+.loginSaisieOTP{
+  text-align: center;
+  margin-top: 10px;
+}
+#BoutonEnvoyerOTP {
+    color: white;
+	cursor:pointer;
+	display: block;
+	margin: auto auto;
+	background-color: #255ea7;
+    border: medium none;
+    letter-spacing: 0.1em;
+    font-size: 14px;
+    white-space: normal;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#blocEnvoyerOTP {
+	margin-top: 40px;
+	font-family: Arial,sans-serif;
+	color: #064e84;
+}
+#blocSaisieOTP {
+	margin-top: 40px;
+	font-family: Arial,sans-serif;
+	color: #064e84;
+}
+#aideSaisieOTP {
+    margin-top: 5px;
+    font-style: italic;
+    text-decoration: underline;
+}
+#infoMailNonAccessible {
+	font-style: italic;
+	font-size: small;
+}
+
+.ligneInfoOTP {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: justify;
+}
+
+#infoAuthentEnvoyerOTP2 {
+	margin-bottom: 5px;
+}
+
+#mailEnvoiOTP {
+	text-decoration: underline;
+	color: blue;
+}
